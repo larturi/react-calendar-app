@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 import { uiCloseModal } from '../../actions/ui';
 
 import '../../styles.css';
-import { eventAddNew, eventClearActiveEvent } from '../../actions/events';
+import { eventAddNew, eventClearActiveEvent, eventUpdated } from '../../actions/events';
 
 const customStyles = {
     content : {
@@ -51,7 +51,9 @@ export const CalendarModal = () => {
 
     useEffect(() => {
         if(activeEvent) {
-            setFormValues(activeEvent)
+            setFormValues(activeEvent);
+        } else {
+            setFormValues(initEvent);
         }
     }, [activeEvent, setFormValues]);
 
@@ -98,14 +100,20 @@ export const CalendarModal = () => {
             return setTitleValid(false);
         }
 
-        dispatch(eventAddNew({
-            ...formValues,
-            id: new Date().getTime(),
-            user: {
-                _id: '12345',
-                name: 'Leandro'
-            }            
-        }));
+        if (activeEvent) {
+            // Alta
+            dispatch(eventUpdated( formValues ));
+        } else {
+            // Edicion
+            dispatch(eventAddNew({
+                ...formValues,
+                id: new Date().getTime(),
+                user: {
+                    _id: '12345',
+                    name: 'Leandro'
+                }            
+            }));
+        }
 
         setTitleValid(true);
         closeModal();
@@ -116,11 +124,11 @@ export const CalendarModal = () => {
           isOpen={ modalOpen }
           closeTimeoutMS={ 200 }
           onRequestClose={ closeModal }
-          style={customStyles}
+          style={ customStyles }
           className="modal"
           overlayClassName="modal-fondo"
         >
-            <h2 className="mt-2 ml-2"> Nuevo evento </h2>
+            <h2 className="mt-2 ml-2"> { (activeEvent) ? activeEvent.title : 'Nuevo evento' } </h2>
             <hr />
 
             <form 
