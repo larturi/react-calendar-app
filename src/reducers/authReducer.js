@@ -9,7 +9,6 @@ export const authReducer = ( state = initialState, action  ) => {
     switch ( action.type ) {
 
         case types.authLogin:
-            console.log('authLogin')
             return {
                 ...state,
                 ...action.payload,
@@ -17,14 +16,12 @@ export const authReducer = ( state = initialState, action  ) => {
             }
 
         case types.authCheckingFinish:
-            console.log('checkingFinish')
             return {
                 ...state,
                 checking: false
             }
 
         case types.authLogout:
-            console.log('authLogout')
             return {
                 checking: false
             }
