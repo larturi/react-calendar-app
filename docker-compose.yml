@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+   api:
+      image: calendar-app-backend:latest
+      ports:
+         - '4003:4003'
+      networks:
+         - calendar-app-network
+
+   react:
+      image: calendar-app-frontend:latest
+      ports:
+         - '80:80'
+      networks:
+         - calendar-app-network
+
+networks:
+   calendar-app-network:
