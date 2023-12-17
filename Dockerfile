@@ -14,6 +14,7 @@ ENV REACT_APP_API_URL=${REACT_APP_API_URL}
 
 RUN npm run build
 
+# Usa una imagen más ligera para ejecutar la aplicación
 FROM nginx:alpine
 
 # Copia la build de la aplicación React al directorio adecuado de Nginx
